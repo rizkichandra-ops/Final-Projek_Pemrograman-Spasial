@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
     <style>
         :root { --primary: #0f172a; --accent: #2563eb; --bg: #f8fafc; }
@@ -25,8 +26,9 @@
 
         /* --- UI Elements --- */
         .navbar-custom { background: white; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 1000; padding: 0.8rem 0; }
-        .nav-link-custom { border: none; background: transparent; font-weight: 600; color: #64748b; padding: 8px 16px; border-radius: 8px; transition: 0.3s; }
+        .nav-link-custom { border: none; background: transparent; font-weight: 600; color: #64748b; padding: 10px 18px; border-radius: 8px; transition: 0.3s; display: flex; align-items: center; }
         .nav-link-custom.active { background: #eff6ff; color: var(--accent); }
+        .nav-link-custom i { font-size: 1.1rem; }
 
         .glass-card { background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); height: 100%; }
         .metric-label { font-size: 0.7rem; font-weight: 700; color: #64748b; letter-spacing: 0.1em; }
@@ -36,6 +38,8 @@
         .legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
         
         footer { background: #0f172a; color: #94a3b8; padding: 60px 0; margin-top: 80px; }
+        .badge-dev { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 8px 16px; border-radius: 10px; transition: 0.3s; }
+        .badge-dev:hover { background: var(--accent); color: white; border-color: var(--accent); }
     </style>
 </head>
 <body>
@@ -44,7 +48,9 @@
     <div class="text-center animate__animated animate__fadeIn">
         <h1 class="display-3 fw-bold mb-2">Enterprise Intelligence</h1>
         <p class="lead opacity-75 mb-5 px-3">Sistem Informasi Geografis Penjualan E-Commerce Nasional</p>
-        <button class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-lg" onclick="launchApp()">Buka Dashboard</button>
+        <button class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-lg" onclick="launchApp()">
+            Buka Dashboard <i class="bi bi-arrow-right ms-2"></i>
+        </button>
     </div>
 </div>
 
@@ -53,16 +59,24 @@
         <div class="container d-flex justify-content-between align-items-center">
             <span class="fw-bold fs-4">SIG<span class="text-primary">ECOM</span></span>
             <div class="d-flex gap-2">
-                <button class="nav-link-custom active" onclick="switchTab('peta', this)">📍 Peta</button>
-                <button class="nav-link-custom" onclick="switchTab('statistik', this)">📊 Statistik</button>
-                <button class="nav-link-custom" onclick="switchTab('potensi', this)">🚀 Potensi</button>
-                <button class="nav-link-custom" onclick="switchTab('info', this)">ℹ️ Info</button>
+                <button class="nav-link-custom active" onclick="switchTab('peta', this)">
+                    <i class="bi bi-geo-alt-fill me-2"></i> Peta
+                </button>
+                <button class="nav-link-custom" onclick="switchTab('statistik', this)">
+                    <i class="bi bi-bar-chart-fill me-2"></i> Statistik
+                </button>
+                <button class="nav-link-custom" onclick="switchTab('potensi', this)">
+                    <i class="bi bi-rocket-takeoff-fill me-2"></i> Potensi
+                </button>
+                <button class="nav-link-custom" onclick="switchTab('info', this)">
+                    <i class="bi bi-info-circle-fill me-2"></i> Info
+                </button>
             </div>
         </div>
     </nav>
 
     <div class="container py-4">
-        <div class="glass-card mb-4">
+        <div class="glass-card mb-4 border-start border-4 border-primary">
             <div class="row align-items-center g-3">
                 <div class="col-md-4">
                     <label class="metric-label d-block mb-1">FILTER WILAYAH (PROVINSI)</label>
@@ -72,17 +86,22 @@
                 </div>
                 <div class="col-md-4">
                     <label class="metric-label d-block mb-1">CARI KABUPATEN / KOTA</label>
-                    <input type="text" id="searchCity" class="form-control border-0 bg-light shadow-sm" placeholder="Ketik nama wilayah..." onkeyup="searchLocation()">
+                    <div class="input-group bg-light rounded shadow-sm">
+                        <span class="input-group-text border-0 bg-transparent text-muted"><i class="bi bi-search"></i></span>
+                        <input type="text" id="searchCity" class="form-control border-0 bg-transparent" placeholder="Ketik nama wilayah..." onkeyup="searchLocation()">
+                    </div>
                 </div>
                 <div class="col-md-4 text-md-end">
-                    <button class="btn btn-outline-primary rounded-pill btn-sm mt-3 fw-bold" onclick="exportToCSV()">⬇️ Unduh Data CSV</button>
+                    <button class="btn btn-outline-primary rounded-pill btn-sm px-4 fw-bold" onclick="exportToCSV()">
+                        <i class="bi bi-file-earmark-arrow-down-fill me-2"></i> Unduh Laporan CSV
+                    </button>
                 </div>
             </div>
         </div>
 
         <div class="row g-4 mb-4 text-center">
             <div class="col-md-4"><div class="glass-card"><p class="metric-label mb-1">TOTAL VALUASI</p><h3 id="m1" class="fw-bold m-0 text-dark">Rp 0</h3></div></div>
-            <div class="col-md-4"><div class="glass-card text-primary border-primary"><p class="metric-label text-primary mb-1">RATA-RATA WILAYAH</p><h3 id="m2" class="fw-bold m-0">Rp 0</h3></div></div>
+            <div class="col-md-4"><div class="glass-card text-primary"><p class="metric-label text-primary mb-1">RATA-RATA WILAYAH</p><h3 id="m2" class="fw-bold m-0">Rp 0</h3></div></div>
             <div class="col-md-4"><div class="glass-card"><p class="metric-label mb-1">JUMLAH TITIK DATA</p><h3 id="m3" class="fw-bold m-0">0</h3></div></div>
         </div>
 
@@ -92,18 +111,18 @@
 
         <div id="tab-statistik" class="content-section d-none animate__animated animate__fadeIn">
             <div class="glass-card">
-                <h5 class="fw-bold mb-4">Distribusi Valuasi Per Provinsi</h5>
+                <h5 class="fw-bold mb-4"><i class="bi bi-graph-up-arrow me-2 text-primary"></i>Distribusi Valuasi Per Provinsi</h5>
                 <div style="height: 450px;"><canvas id="mainChart"></canvas></div>
                 <div class="mt-4 p-3 bg-light rounded text-muted small border-start border-4 border-primary">
-                    <strong>Sumber Data:</strong> Dataset dikompilasi dari platform <strong>Kaggle</strong> melalui file <em>ecommerce_kabkota_centroid.csv</em>.
+                    <i class="bi bi-database-fill me-2"></i><strong>Sumber Data:</strong> Dataset dikompilasi dari platform <strong>Kaggle</strong> melalui file <em>ecommerce_kabkota_centroid.csv</em>.
                 </div>
             </div>
         </div>
 
         <div id="tab-potensi" class="content-section d-none animate__animated animate__fadeIn">
             <div class="row g-4">
-                <div class="col-md-6"><div class="glass-card h-100"><h5 class="fw-bold mb-3 text-primary">Top 10 Provinsi Strategis</h5><div id="table-p"></div></div></div>
-                <div class="col-md-6"><div class="glass-card h-100"><h5 class="fw-bold mb-3 text-success">Top 10 Kab/Kota Potensial</h5><div id="table-k"></div></div></div>
+                <div class="col-md-6"><div class="glass-card h-100"><h5 class="fw-bold mb-3 text-primary"><i class="bi bi-award-fill me-2"></i>Top 10 Provinsi Strategis</h5><div id="table-p"></div></div></div>
+                <div class="col-md-6"><div class="glass-card h-100"><h5 class="fw-bold mb-3 text-success"><i class="bi bi-geo-fill me-2"></i>Top 10 Kab/Kota Potensial</h5><div id="table-k"></div></div></div>
             </div>
         </div>
 
@@ -116,11 +135,11 @@
                 
                 <div class="row">
                     <div class="col-md-6 border-end">
-                        <h6 class="fw-bold text-primary mb-3">DATASET & METODOLOGI</h6>
+                        <h6 class="fw-bold text-primary mb-3"><i class="bi bi-database-check me-2"></i>DATASET & METODOLOGI</h6>
                         <p class="small text-muted">Dataset utama yang digunakan didapatkan melalui platform <strong>Kaggle</strong>, yang kemudian diproses menjadi data centroid penjualan melalui ecommerce untuk kebutuhan pemetaan dan statistik.</p>
                     </div>
                     <div class="col-md-6 ps-md-4">
-                        <h6 class="fw-bold text-primary mb-3">VISUALISASI STRATEGIS</h6>
+                        <h6 class="fw-bold text-primary mb-3"><i class="bi bi-eye-fill me-2"></i>VISUALISASI STRATEGIS</h6>
                         <p class="small text-muted">Visualisasi menggunakan <strong>skala logaritmik</strong> agar tetap proporsional dan nyaman dilihat secara visual meskipun terdapat perbedaan nilai transaksi yang sangat kontras antar wilayah.</p>
                     </div>
                 </div>
@@ -131,10 +150,10 @@
     <footer>
         <div class="container text-center">
             <p class="text-uppercase small fw-bold mb-4" style="letter-spacing: 3px; color: #64748b;">Pengembang</p>
-            <div class="row g-3 justify-content-center">
-                <div class="col-auto"><span class="badge bg-secondary px-3 py-2 fw-semibold">Rizki Chandra</span></div>
-                <div class="col-auto"><span class="badge bg-secondary px-3 py-2 fw-semibold">Muhammad Damar Wyasa Seta</span></div>
-                <div class="col-auto"><span class="badge bg-secondary px-3 py-2 fw-semibold">Rizal Fauzan Rosyadi</span></div>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <div class="badge-dev">Rizki Chandra</div>
+                <div class="badge-dev">Muhammad Damar Wyasa Seta</div>
+                <div class="badge-dev">Rizal Fauzan Rosyadi</div>
             </div>
         </div>
     </footer>
@@ -147,7 +166,6 @@
 <script>
     let map, markers = [], fullData = [], chartInstance;
 
-    // Inisialisasi Aplikasi
     function launchApp() {
         document.getElementById('welcome-page').style.opacity = '0';
         setTimeout(() => {
@@ -158,7 +176,6 @@
         }, 800);
     }
 
-    // Inisialisasi Peta
     function initMap() {
         map = L.map('map', {zoomControl: false}).setView([-2.5, 118], 5);
         L.control.zoom({position: 'topright'}).addTo(map);
@@ -177,24 +194,19 @@
         legend.addTo(map);
     }
 
-    // Load Dataset CSV
     function loadData() {
         Papa.parse("ecommerce_kabkota_centroid.csv", {
             download: true, header: true,
             complete: function(res) {
                 fullData = res.data.filter(r => r.total_pembayaran && r.lat);
-                
-                // Isi Dropdown Provinsi secara dinamis
                 const provs = [...new Set(fullData.map(d => d.PROVINSI))].sort();
                 const select = document.getElementById('filterProvinsi');
                 provs.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`);
-                
                 updateView(fullData);
             }
         });
     }
 
-    // Update Tampilan Berdasarkan Data
     function updateView(data) {
         markers.forEach(m => map.removeLayer(m));
         markers = [];
@@ -205,7 +217,6 @@
             totalVal += v;
             provStats[row.PROVINSI] = (provStats[row.PROVINSI] || 0) + v;
 
-            // Logarithmic Scaling untuk kenyamanan visual
             const marker = L.circleMarker([row.lat, row.lon], {
                 radius: Math.log(v + 1) * 0.7,
                 fillColor: v > 5000000 ? '#1e3a8a' : '#60a5fa',
@@ -224,7 +235,6 @@
         updateTables(data, provStats);
     }
 
-    // Logika Filter Provinsi
     function filterData() {
         const val = document.getElementById('filterProvinsi').value;
         const filtered = val === 'all' ? fullData : fullData.filter(d => d.PROVINSI === val);
@@ -235,7 +245,6 @@
         }
     }
 
-    // Logika Pencarian Wilayah
     function searchLocation() {
         const query = document.getElementById('searchCity').value.toLowerCase();
         if(query.length > 3) {
@@ -244,16 +253,14 @@
         }
     }
 
-    // Export Data CSV
     function exportToCSV() {
         const csv = Papa.unparse(fullData);
         const blob = new Blob([csv], {type: 'text/csv'});
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url; a.download = 'Laporan_Analisis_Spasial_Ecom.csv'; a.click();
+        a.href = url; a.download = 'Laporan_Analisis_SIGECOM.csv'; a.click();
     }
 
-    // Update Grafik Chart.js
     function updateCharts(stats) {
         const ctx = document.getElementById('mainChart').getContext('2d');
         if(chartInstance) chartInstance.destroy();
@@ -268,7 +275,6 @@
         });
     }
 
-    // Update Tabel Potensi
     function updateTables(data, provStats) {
         const topP = Object.entries(provStats).sort((a,b) => b[1] - a[1]).slice(0, 10);
         let h1 = '<table class="table table-sm table-hover"><tbody>';
@@ -281,7 +287,6 @@
         document.getElementById('table-k').innerHTML = h2 + '</tbody></table>';
     }
 
-    // Switch Navigasi Tab
     function switchTab(tabId, btn) {
         document.querySelectorAll('.content-section').forEach(s => s.classList.add('d-none'));
         document.querySelectorAll('.nav-link-custom').forEach(b => b.classList.remove('active'));
