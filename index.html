@@ -89,7 +89,7 @@
         </div>
 
         <div class="row g-4 mb-4 text-center">
-            <div class="col-md-4"><div class="glass-card"><p class="metric-label mb-1">TOTAL VALUASI</p><h3 id="m1" class="fw-bold m-0">Rp 0</h3></div></div>
+            <div class="col-md-4"><div class="glass-card"><p class="metric-label mb-1">TOTAL TRANSAKSI</p><h3 id="m1" class="fw-bold m-0">Rp 0</h3></div></div>
             <div class="col-md-4"><div class="glass-card text-primary"><p class="metric-label text-primary mb-1">RATA-RATA WILAYAH</p><h3 id="m2" class="fw-bold m-0">Rp 0</h3></div></div>
             <div class="col-md-4"><div class="glass-card"><p class="metric-label mb-1">JUMLAH TITIK DATA</p><h3 id="m3" class="fw-bold m-0">0</h3></div></div>
         </div>
@@ -139,6 +139,9 @@
                 <div class="badge-dev">Muhammad Damar Wyasa Seta</div>
                 <div class="badge-dev">Rizal Fauzan Rosyadi</div>
             </div>
+            <div class="mt-4 small text-muted opacity-50">
+                &copy; 2025 Enterprise Intelligence System. Build v2.0
+            </div>
         </div>
     </footer>
 </div>
@@ -177,7 +180,7 @@
         legend.onAdd = function() {
             var div = L.DomUtil.create('div', 'legend');
             var grades = [0, 500000, 1000000, 5000000, 10000000];
-            var labels = ['<strong>Skala Valuasi</strong>'];
+            var labels = ['<strong>Skala Transaksi</strong>'];
             for (var i = 0; i < grades.length; i++) {
                 labels.push('<i style="background:' + getMarkerColor(grades[i] + 1) + '"></i> ' +
                     (grades[i]/1e6) + ' Jt' + (grades[i + 1] ? ' &ndash; ' + (grades[i + 1]/1e6) + ' Jt' : '+'));
@@ -267,7 +270,7 @@
             type: 'bar',
             data: {
                 labels: labels,
-                datasets: [{ label: 'Valuasi', data: labels.map(l => stats[l]), backgroundColor: '#2563eb', borderRadius: 8 }]
+                datasets: [{ label: 'Transaksi', data: labels.map(l => stats[l]), backgroundColor: '#2563eb', borderRadius: 8 }]
             },
             options: { responsive: true, maintainAspectRatio: false }
         });
