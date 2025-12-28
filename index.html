@@ -29,7 +29,6 @@
         .glass-card { background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         #map { height: 550px; border-radius: 15px; border: 1px solid #e2e8f0; }
         
-        .search-box { position: absolute; top: 10px; left: 50px; z-index: 1000; width: 250px; }
         .legend { background: white; padding: 12px; border-radius: 10px; font-size: 0.75rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
         
@@ -63,49 +62,56 @@
         <div class="glass-card mb-4">
             <div class="row align-items-center g-3">
                 <div class="col-md-4">
-                    <label class="small fw-bold text-muted">Filter Wilayah</label>
+                    <label class="small fw-bold text-muted mb-1">Filter Wilayah</label>
                     <select id="filterProvinsi" class="form-select border-0 bg-light" onchange="filterData()">
                         <option value="all">Seluruh Indonesia</option>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label class="small fw-bold text-muted">Cari Kota/Kabupaten</label>
+                    <label class="small fw-bold text-muted mb-1">Cari Kota/Kabupaten</label>
                     <input type="text" id="searchCity" class="form-control border-0 bg-light" placeholder="Ketik nama kota..." onkeyup="searchLocation()">
                 </div>
                 <div class="col-md-4 text-md-end">
-                    <button class="btn btn-outline-primary rounded-pill btn-sm mt-3" onclick="exportToCSV()">⬇️ Ekspor Data (.csv)</button>
+                    <button class="btn btn-outline-primary rounded-pill btn-sm mt-3" onclick="exportToCSV()">⬇️ Ekspor Laporan (.csv)</button>
                 </div>
             </div>
         </div>
 
         <div class="row g-4 mb-4 text-center">
-            <div class="col-md-4"><div class="glass-card"><p class="small text-muted fw-bold mb-1">TOTAL VALUASI</p><h3 id="m1" class="fw-bold m-0">Rp 0</h3></div></div>
-            <div class="col-md-4"><div class="glass-card"><p class="small text-muted fw-bold mb-1">RATA-RATA</p><h3 id="m2" class="fw-bold m-0 text-primary">Rp 0</h3></div></div>
-            <div class="col-md-4"><div class="glass-card"><p class="small text-muted fw-bold mb-1">TITIK DATA</p><h3 id="m3" class="fw-bold m-0">0</h3></div></div>
+            <div class="col-md-4"><div class="glass-card"><p class="small text-muted fw-bold mb-1 uppercase">TOTAL VALUASI</p><h3 id="m1" class="fw-bold m-0 text-dark">Rp 0</h3></div></div>
+            <div class="col-md-4"><div class="glass-card text-primary"><p class="small text-primary fw-bold mb-1 uppercase">RATA-RATA WILAYAH</p><h3 id="m2" class="fw-bold m-0">Rp 0</h3></div></div>
+            <div class="col-md-4"><div class="glass-card"><p class="small text-muted fw-bold mb-1 uppercase">TITIK CAKUPAN</p><h3 id="m3" class="fw-bold m-0">0</h3></div></div>
         </div>
 
-        <div id="tab-peta" class="content-section position-relative">
+        <div id="tab-peta" class="content-section">
             <div id="map"></div>
         </div>
 
         <div id="tab-statistik" class="content-section d-none">
             <div class="glass-card">
-                <h5 class="fw-bold mb-4">Grafik Distribusi Penjualan</h5>
+                <h5 class="fw-bold mb-4">Grafik Distribusi Penjualan Nasional</h5>
                 <div style="height: 450px;"><canvas id="mainChart"></canvas></div>
+                <div class="mt-4 p-3 bg-light rounded text-muted small border-start border-4 border-primary">
+                    <strong>Sumber Data:</strong> Dataset dikompilasi dari <strong>Kaggle</strong> melalui file <em>ecommerce_kabkota_centroid.csv</em>.
+                </div>
             </div>
         </div>
 
         <div id="tab-potensi" class="content-section d-none">
             <div class="row g-4">
-                <div class="col-md-6"><div class="glass-card"><h5 class="fw-bold mb-3">Top 10 Provinsi</h5><div id="table-p"></div></div></div>
-                <div class="col-md-6"><div class="glass-card"><h5 class="fw-bold mb-3">Top 10 Kota/Kab</h5><div id="table-k"></div></div></div>
+                <div class="col-md-6"><div class="glass-card h-100"><h5 class="fw-bold mb-3 text-primary">Top 10 Provinsi Strategis</h5><div id="table-p"></div></div></div>
+                <div class="col-md-6"><div class="glass-card h-100"><h5 class="fw-bold mb-3 text-success">Top 10 Kabupaten/Kota Potensial</h5><div id="table-k"></div></div></div>
             </div>
         </div>
 
         <div id="tab-info" class="content-section d-none">
             <div class="glass-card">
-                <h4 class="fw-bold">Tentang Proyek</h4>
-                <p>Website ini dikembangkan untuk memberikan pemahaman spasial mengenai ekonomi digital nasional. Menggunakan dataset <em>ecommerce_kabkota_centroid.csv</em>.</p>
+                <h4 class="fw-bold mb-4">Tentang Proyek</h4>
+                <p>Website ini dikembangkan untuk memberikan pemahaman spasial yang mendalam mengenai ekonomi digital nasional. Dengan menggabungkan data transaksi dan koordinat geografis, sistem ini mampu mengidentifikasi titik-titik pertumbuhan ekonomi di berbagai wilayah Indonesia.</p>
+                <hr class="my-4">
+                <h5 class="fw-bold">Dataset & Metodologi</h5>
+                <p>Dataset utama yang digunakan didapatkan melalui platform <strong>Kaggle</strong>, yang kemudian diproses menjadi file <em>ecommerce_kabkota_centroid.csv</em> untuk kebutuhan pemetaan dan statistik.</p>
+                <p class="text-muted">Visualisasi menggunakan skala logaritmik agar ukuran lingkaran pada peta tetap proporsional dan nyaman dilihat secara visual meskipun terdapat perbedaan nilai transaksi yang sangat kontras antar wilayah.</p>
             </div>
         </div>
     </div>
@@ -115,7 +121,7 @@
             <p class="text-uppercase small fw-bold mb-4" style="letter-spacing: 3px; color: #64748b;">Pengembang</p>
             <div class="row g-3 justify-content-center">
                 <div class="col-auto"><span class="badge bg-secondary px-3 py-2">Rizki Chandra</span></div>
-                <div class="col-auto"><span class="badge bg-secondary px-3 py-2">Damar Wyasa Seta</span></div>
+                <div class="col-auto"><span class="badge bg-secondary px-3 py-2">Muhammad Damar Wyasa Seta</span></div>
                 <div class="col-auto"><span class="badge bg-secondary px-3 py-2">Rizal Fauzan Rosyadi</span></div>
             </div>
         </div>
@@ -143,6 +149,19 @@
         map = L.map('map', {zoomControl: false}).setView([-2.5, 118], 5);
         L.control.zoom({position: 'topright'}).addTo(map);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png').addTo(map);
+        
+        // Custom Legend
+        var legend = L.control({position: 'bottomright'});
+        legend.onAdd = function() {
+            var div = L.DomUtil.create('div', 'legend'), grades = [0, 1000000, 5000000, 10000000];
+            div.innerHTML = '<strong>Skala Valuasi</strong><br>';
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML += '<i style="background:' + (grades[i] > 5000000 ? '#1e3a8a' : '#60a5fa') + '"></i> ' +
+                    (grades[i]/1e6) + ' Jt' + (grades[i+1] ? '-' + (grades[i+1]/1e6) + ' Jt' : '+') + '<br>';
+            }
+            return div;
+        };
+        legend.addTo(map);
     }
 
     function loadData() {
@@ -150,24 +169,18 @@
             download: true, header: true,
             complete: function(res) {
                 fullData = res.data.filter(r => r.total_pembayaran && r.lat);
-                
-                // Isi Dropdown Provinsi
                 const provs = [...new Set(fullData.map(d => d.PROVINSI))].sort();
                 const select = document.getElementById('filterProvinsi');
                 provs.forEach(p => select.innerHTML += `<option value="${p}">${p}</option>`);
-                
                 updateView(fullData);
             }
         });
     }
 
     function updateView(data) {
-        // Hapus marker lama
         markers.forEach(m => map.removeLayer(m));
         markers = [];
-        
-        let totalVal = 0;
-        let provStats = {};
+        let totalVal = 0, provStats = {};
 
         data.forEach(row => {
             const v = parseFloat(row.total_pembayaran);
@@ -178,7 +191,7 @@
                 radius: Math.log(v + 1) * 0.7,
                 fillColor: v > 5000000 ? '#1e3a8a' : '#60a5fa',
                 color: "white", weight: 0.5, fillOpacity: 0.8
-            }).bindPopup(`<strong>${row.KAB_KOTA}</strong><br>Rp ${v.toLocaleString('id-ID')}`);
+            }).bindPopup(`<strong>${row.KAB_KOTA}</strong><br>Valuasi: Rp ${v.toLocaleString('id-ID')}`);
             
             marker.addTo(map);
             markers.push(marker);
@@ -186,7 +199,7 @@
 
         document.getElementById('m1').innerText = 'Rp ' + (totalVal/1e6).toFixed(1) + ' Jt';
         document.getElementById('m2').innerText = 'Rp ' + (totalVal/data.length/1e6).toFixed(2) + ' Jt';
-        document.getElementById('m3').innerText = data.length;
+        document.getElementById('m3').innerText = data.length + ' Wilayah';
 
         updateCharts(provStats);
         updateTables(data, provStats);
@@ -196,17 +209,17 @@
         const val = document.getElementById('filterProvinsi').value;
         const filtered = val === 'all' ? fullData : fullData.filter(d => d.PROVINSI === val);
         updateView(filtered);
-        if(val !== 'all') {
+        if(val !== 'all' && filtered.length > 0) {
             const bounds = L.latLngBounds(filtered.map(d => [d.lat, d.lon]));
-            map.fitBounds(bounds);
+            map.fitBounds(bounds, {padding: [50, 50]});
         }
     }
 
     function searchLocation() {
         const query = document.getElementById('searchCity').value.toLowerCase();
-        const found = fullData.find(d => d.KAB_KOTA.toLowerCase().includes(query));
-        if(found && query.length > 3) {
-            map.setView([found.lat, found.lon], 10);
+        if(query.length > 3) {
+            const found = fullData.find(d => d.KAB_KOTA.toLowerCase().includes(query));
+            if(found) map.setView([found.lat, found.lon], 10);
         }
     }
 
@@ -215,9 +228,7 @@
         const blob = new Blob([csv], {type: 'text/csv'});
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Laporan_Ecommerce.csv';
-        a.click();
+        a.href = url; a.download = 'Laporan_Analisis_Spasial.csv'; a.click();
     }
 
     function updateCharts(stats) {
@@ -228,21 +239,21 @@
             type: 'bar',
             data: {
                 labels: labels,
-                datasets: [{ label: 'Valuasi', data: labels.map(l => stats[l]), backgroundColor: '#2563eb' }]
+                datasets: [{ label: 'Total Valuasi (IDR)', data: labels.map(l => stats[l]), backgroundColor: '#2563eb', borderRadius: 10 }]
             },
-            options: { responsive: true, maintainAspectRatio: false }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
         });
     }
 
     function updateTables(data, provStats) {
         const topP = Object.entries(provStats).sort((a,b) => b[1] - a[1]).slice(0, 10);
-        let h1 = '<table class="table table-sm"><tbody>';
-        topP.forEach(p => h1 += `<tr><td>${p[0]}</td><td class="fw-bold">Rp ${(p[1]/1e6).toFixed(1)} Jt</td></tr>`);
+        let h1 = '<table class="table table-hover"><tbody>';
+        topP.forEach(p => h1 += `<tr><td>${p[0]}</td><td class="fw-bold text-end">Rp ${(p[1]/1e6).toFixed(1)} Jt</td></tr>`);
         document.getElementById('table-p').innerHTML = h1 + '</tbody></table>';
 
         const topK = [...data].sort((a,b) => b.total_pembayaran - a.total_pembayaran).slice(0, 10);
-        let h2 = '<table class="table table-sm"><tbody>';
-        topK.forEach(k => h2 += `<tr><td>${k.KAB_KOTA}</td><td class="fw-bold text-primary">Rp ${(parseFloat(k.total_pembayaran)/1e6).toFixed(1)} Jt</td></tr>`);
+        let h2 = '<table class="table table-hover"><tbody>';
+        topK.forEach(k => h2 += `<tr><td>${k.KAB_KOTA}</td><td class="fw-bold text-primary text-end">Rp ${(parseFloat(k.total_pembayaran)/1e6).toFixed(1)} Jt</td></tr>`);
         document.getElementById('table-k').innerHTML = h2 + '</tbody></table>';
     }
 
